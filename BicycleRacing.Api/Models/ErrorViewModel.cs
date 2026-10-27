@@ -1,4 +1,4 @@
-namespace Dip_Dip.Models
+namespace BicycleRacing.Api.Models
 {
     public class ErrorViewModel
     {

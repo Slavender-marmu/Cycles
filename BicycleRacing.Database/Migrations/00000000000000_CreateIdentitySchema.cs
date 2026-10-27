@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Dip_Dip.Data.Migrations
+namespace BicycleRacing.Database.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

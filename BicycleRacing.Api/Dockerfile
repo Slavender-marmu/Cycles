@@ -12,19 +12,21 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Dip Dip.csproj", "."]
-RUN dotnet restore "./Dip Dip.csproj"
+COPY ["BicycleRacing.Api/BicycleRacing.Api.csproj", "BicycleRacing.Api/"]
+COPY ["BicycleRacing.Database/BicycleRacing.Database.csproj", "BicycleRacing.Database/"]
+COPY ["BicycleRacing.Services/BicycleRacing.Services.csproj", "BicycleRacing.Services/"]
+RUN dotnet restore "BicycleRacing.Api/BicycleRacing.Api.csproj"
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./Dip Dip.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/BicycleRacing.Api"
+RUN dotnet build "BicycleRacing.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Dip Dip.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "BicycleRacing.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Dip Dip.dll"]
+ENTRYPOINT ["dotnet", "BicycleRacing.Api.dll"]

@@ -1,8 +1,8 @@
-using Dip_Dip.Models;
+using BicycleRacing.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Dip_Dip.Controllers
+namespace BicycleRacing.Api.Controllers
 {
     public class HomeController : Controller
     {
