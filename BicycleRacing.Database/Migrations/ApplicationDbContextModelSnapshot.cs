@@ -30,6 +30,9 @@ namespace BicycleRacing.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("datetimeoffset");
 
@@ -40,6 +43,9 @@ namespace BicycleRacing.Database.Migrations
 
                     b.Property<DateTimeOffset>("StartDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -279,6 +285,21 @@ namespace BicycleRacing.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("RaceOrganizers", b =>
+                {
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RaceId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RaceOrganizers");
+                });
+
             modelBuilder.Entity("RaceParticipants", b =>
                 {
                     b.Property<int>("RaceId")
@@ -292,6 +313,24 @@ namespace BicycleRacing.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RaceParticipants");
+                });
+
+            modelBuilder.Entity("UserFriends", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("UserFriends", t =>
+                        {
+                            t.HasCheckConstraint("CK_UserFriends_DifferentUsers", "[UserId] <> [FriendId]");
+                        });
                 });
 
             modelBuilder.Entity("BicycleRacing.Database.Entities.Score", b =>
@@ -364,12 +403,42 @@ namespace BicycleRacing.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RaceOrganizers", b =>
+                {
+                    b.HasOne("BicycleRacing.Database.Entities.Race", null)
+                        .WithMany()
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BicycleRacing.Database.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RaceParticipants", b =>
                 {
                     b.HasOne("BicycleRacing.Database.Entities.Race", null)
                         .WithMany()
                         .HasForeignKey("RaceId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BicycleRacing.Database.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserFriends", b =>
+                {
+                    b.HasOne("BicycleRacing.Database.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BicycleRacing.Database.Entities.User", null)

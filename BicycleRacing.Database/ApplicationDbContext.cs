@@ -23,6 +23,30 @@ namespace BicycleRacing.Database
                     participants => participants.HasOne<Race>().WithMany().HasForeignKey("RaceId"),
                     participants => participants.HasKey("RaceId", "UserId"));
 
+            builder.Entity<Race>()
+                .HasMany(race => race.Organizers)
+                .WithMany(user => user.OrganizedRaces)
+                .UsingEntity<Dictionary<string, object>>(
+                    "RaceOrganizers",
+                    organizers => organizers.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                    organizers => organizers.HasOne<Race>().WithMany().HasForeignKey("RaceId"),
+                    organizers => organizers.HasKey("RaceId", "UserId"));
+
+            builder.Entity<User>()
+                .HasMany(user => user.Friends)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserFriends",
+                    friends => friends.HasOne<User>().WithMany().HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Restrict),
+                    friends => friends.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                    friends =>
+                    {
+                        friends.HasKey("UserId", "FriendId");
+                        friends.ToTable(table => table.HasCheckConstraint(
+                            "CK_UserFriends_DifferentUsers", "[UserId] <> [FriendId]"));
+                    });
+
             // Store elapsed ticks rather than SQL Server time, which is limited to 24 hours.
             builder.Entity<Score>()
                 .Property(score => score.Time)

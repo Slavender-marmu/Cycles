@@ -2,4 +2,5 @@
   <Project Path="BicycleRacing.Api/BicycleRacing.Api.csproj" />
   <Project Path="BicycleRacing.Database/BicycleRacing.Database.csproj" />
   <Project Path="BicycleRacing.Services/BicycleRacing.Services.csproj" />
+  <Project Path="BicycleRacing.Tests/BicycleRacing.Tests.csproj" />
 </Solution>

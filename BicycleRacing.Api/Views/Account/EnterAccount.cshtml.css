@@ -1,0 +1,128 @@
+.account-entry {
+    color: #18342e;
+}
+
+.account-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: calc(100svh - 148px);
+}
+
+.account-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 3rem clamp(1.5rem, 6vw, 5rem);
+}
+
+.account-panel + .account-panel {
+    border-left: 1px solid #d5dfd9;
+}
+
+.account-form {
+    width: 100%;
+    max-width: 360px;
+}
+
+.account-form h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 2rem;
+    text-align: center;
+}
+
+.account-form ::deep .form-label, .account-form ::deep .form-check-label {
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.account-form ::deep .form-control {
+    min-height: 3rem;
+    border-color: #b7c6bd;
+    border-radius: .375rem;
+}
+
+.account-form ::deep .form-control:focus, .account-form ::deep .form-check-input:focus {
+    border-color: #37755b;
+    box-shadow: 0 0 0 .2rem #37755b26;
+}
+
+.account-form ::deep .form-check-input:checked {
+    background-color: #24583f;
+    border-color: #24583f;
+}
+
+.account-form ::deep a {
+    color: #24583f;
+    text-underline-offset: .2em;
+}
+
+.account-login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+    font-size: .875rem;
+}
+
+.account-submit {
+    width: 100%;
+    padding: .85rem 1.1rem;
+    border-radius: .375rem;
+    font-weight: 600;
+}
+
+.account-submit-signup {
+    color: #fff;
+    background: #24583f;
+    border-color: #24583f;
+}
+
+.account-submit-signup:hover, .account-submit-signup:focus-visible {
+    color: #fff;
+    background: #183e2c;
+}
+
+.account-submit-login {
+    color: #18342e;
+    background: #e8efea;
+    border-color: #c5d3c9;
+}
+
+.account-submit-login:hover, .account-submit-login:focus-visible {
+    color: #18342e;
+    background: #d6e3d9;
+}
+
+.account-recovery {
+    margin-top: 1rem;
+    font-size: .8rem;
+    text-align: center;
+}
+
+.account-errors ::deep .field-validation-error {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.account-form ::deep .input-validation-error {
+    border-color: #b02a37;
+}
+
+@media (max-width: 767px) {
+    .account-grid {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .account-panel {
+        padding: 2.5rem 1rem;
+    }
+
+    .account-panel + .account-panel {
+        border-left: 0;
+        border-top: 1px solid #d5dfd9;
+    }
+}

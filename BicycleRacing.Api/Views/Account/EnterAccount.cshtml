@@ -1,0 +1,78 @@
+@model EnterAccountViewModel
+@{
+    ViewData["Title"] = "Enter account";
+    ViewData["FullWidth"] = true;
+}
+
+<section class="account-entry" aria-label="Account access">
+    <div class="account-grid">
+        <section class="account-panel" aria-labelledby="signup-heading">
+            <div class="account-form">
+            <h2 id="signup-heading">Create an account</h2>
+
+            <form asp-controller="Account" asp-action="EnterAccount" method="post">
+                <input type="hidden" name="form" value="signup" />
+                <input asp-for="ReturnUrl" type="hidden" />
+                <div class="account-errors text-danger" role="alert">
+                    @Html.ValidationMessage("Signup")
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Signup.Email" class="form-label"></label>
+                    <input asp-for="Signup.Email" class="form-control" autocomplete="email" />
+                    <span asp-validation-for="Signup.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Signup.Password" class="form-label"></label>
+                    <input asp-for="Signup.Password" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="Signup.Password" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Signup.ConfirmPassword" class="form-label"></label>
+                    <input asp-for="Signup.ConfirmPassword" class="form-control" autocomplete="new-password" />
+                    <span asp-validation-for="Signup.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn account-submit account-submit-signup">Sign up</button>
+            </form>
+            </div>
+        </section>
+
+        <section class="account-panel" aria-labelledby="login-heading">
+            <div class="account-form">
+            <h2 id="login-heading">Log in</h2>
+
+            <form asp-controller="Account" asp-action="EnterAccount" method="post">
+                <input type="hidden" name="form" value="login" />
+                <input asp-for="ReturnUrl" id="Login_ReturnUrl" type="hidden" />
+                <div class="account-errors text-danger" role="alert">
+                    @Html.ValidationMessage("Login")
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Login.Email" class="form-label"></label>
+                    <input asp-for="Login.Email" class="form-control" autocomplete="username" />
+                    <span asp-validation-for="Login.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Login.Password" class="form-label"></label>
+                    <input asp-for="Login.Password" class="form-control" autocomplete="current-password" />
+                    <span asp-validation-for="Login.Password" class="text-danger"></span>
+                </div>
+                <div class="account-login-options mb-4">
+                    <div class="form-check">
+                        <input asp-for="Login.RememberMe" class="form-check-input" />
+                        <label asp-for="Login.RememberMe" class="form-check-label"></label>
+                    </div>
+                    <a asp-area="Identity" asp-page="/Account/ForgotPassword">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn account-submit account-submit-login">Log in</button>
+                <div class="account-recovery"><a asp-area="Identity" asp-page="/Account/ResendEmailConfirmation">Resend confirmation email</a></div>
+            </form>
+            </div>
+        </section>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
